@@ -42,11 +42,27 @@ async function ProcesoInscripcion(){
     process.exit(1)
   }
 
-  funcion.exportar(`El estudiante ${estudiante} con número de documento ${documento}
+  const message = `El estudiante ${estudiante} con número de documento ${documento}
     se registra al curso [${codigo}] ${curso.nombre} de una duración de ${curso.duracion} horas
     con el profesor ${curso.profesor} en el horario ${curso.horario} [${curso.dias}]
-    con un costo de $${curso.costo} pesos.`);
+    con un costo de $${curso.costo} pesos.`;
 
+  funcion.exportar(message);
+  return message;
 }
 
-if (!error) ProcesoInscripcion()
+async function Main (){
+  const express = require('express')
+  const opn = require('opn');
+  const app = express();
+
+  let message = await ProcesoInscripcion()
+  app.get('/' , ( req, res ) => {
+    res.send(message);
+  });
+
+  app.listen(8080);
+  opn("http://localhost:8080");
+}
+
+if (!error) Main();

@@ -1,0 +1,25 @@
+{
+  "name": "nodetdea",
+  "version": "1.0.0",
+  "description": "Primera entrega, imprimiendo datos por navegador",
+  "main": "main.js",
+  "dependencies": {
+    "express": "^4.16.4",
+    "opn": "^5.5.0",
+    "yargs": "^13.2.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": ""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rangoPipe/NodeTdeA.git"
+  },
+  "author": "farango@ideassimples.com.co",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rangoPipe/NodeTdeA/issues"
+  },
+  "homepage": "https://github.com/rangoPipe/NodeTdeA#readme"
+}

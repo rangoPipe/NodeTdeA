@@ -1,6 +1,5 @@
 const fs = require('fs');
 
-
 const promedio = (notas) => {
   let valor = 0;
   for (var nota in notas)
@@ -34,6 +33,7 @@ function imprimirCurso(curso){
 function buscarCurso( cursos, codigo ){
   return new Promise(resolve => {
       let curso = cursos.find(x => x.codigo == codigo);
+      console.log(curso);
       resolve(curso);
   });
 }
