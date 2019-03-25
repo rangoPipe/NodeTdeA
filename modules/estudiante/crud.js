@@ -63,7 +63,7 @@ const Promedio = (estudiante) => {
 
 const PromedioEst = (nombre) => {
   let estudiante = Buscar(nombre);
-  let promedio = Promedio(estudiante[0]);
+  let promedio = (estudiante) ? Promedio(estudiante[0]) : 0;
   return promedio;
 }
 
