@@ -2,9 +2,26 @@ const express = require('express');
 const opn = require('opn');
 const argv = require('./modules/comands/yargs').yargs;
 const crud = require('./modules/estudiante/crud');
+const hbs = require('hbs')
+const bodyParser = require('body-parser')
+require('./helpers/helperHbs')
+
 
 const app = express();
+hbs.registerPartials(__dirname + '/partials');
+
+app.set('view engine','hbs')
 app.use( express.static(__dirname + '/public'));
+app.use(bodyParser.urlencoded({extended : false}))
+
+app.get('/',(req,res) => {
+  res.render('index',{
+    estudiante : req.query.nombre,
+    nota1 : req.body.nota1,
+    nota2 : req.body.nota2,
+    nota3 : req.body.nota3
+  })
+});
 
 switch (argv._[0]) {
   case 'create':
@@ -37,5 +54,5 @@ switch (argv._[0]) {
     console.error('No se ingreso ningun codigo valido');
 }
 
-//app.listen(8080);
-//opn('http://localhost:8080');
+app.listen(8080);
+opn('http://localhost:8080');
