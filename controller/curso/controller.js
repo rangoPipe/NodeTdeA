@@ -1,29 +1,33 @@
 const fs = require('fs');
 const uuid = require('uuid/v4');
-const pathJson = 'usuario.json';
+const bdPath = `../../BD/curso.json`;
+const modalidadesPath = '../../BD/modalidades.json';
+const funciones = require('../../funciones');
 
-listaUsuario = [];
+listaCurso = [];
 
-const Crear = (usuario) => {
+const Crear = (curso) => {
   Listar();
-  if(listaUsuario.filter(x => x.nombre == usuario.nombre).length > 0)
+  if(listaCurso.filter(x => x.nombre == curso.nombre).length > 0)
     return false;
 
   let datos = {
     id : uuid(),
-    numDoc : usuario.numDoc,
-    nombre : usuario.nombre,
-    correo : usuario.correo,
-    telefono : usuario.telefono,
-    id_rol : usuario.id_rol
+    codigo : curso.codCurso,
+    nombre : curso.nombre,
+    descripcion : curso.descripcion,
+    valor : curso.valor,
+    modalidad : curso.modalidad, // 1 = virtual , 0=presencial
+    intensidad : curso.intensidad,
+    estado : true
   }
 
-  listaUsuario.push(datos);
-  Guardar();
+  listaCurso.push(datos);
+    return Guardar();
 }
 
 const Guardar = () => {
-  fs.writeFile(pathJson, JSON.stringify(listaUsuario), (err) => {
+  fs.writeFile('BD/curso.json', JSON.stringify(listaCurso), (err) => {
     if(err) throw (err);
     return true;
   });
@@ -31,40 +35,61 @@ const Guardar = () => {
 
 const Listar = () => {
   try {
-    listaUsuario = require(pathJson);
+    listaCurso = require(bdPath);
   } catch (e) {
-    listaUsuario = [];
+    listaCurso = [];
   }
 }
 
-const Mostrar = () => {
+const Buscar = (id) => {
   Listar();
-  listaUsuario.forEach(x =>  MostrarUsuario(x));
-}
-
-const MostrarUsuario = ( usuario ) => {
-    Object.keys(usuario).forEach( i => {
-      console.log(i,usuario[i]);
-    })
-}
-
-const Buscar = (nombre) => {
-  Listar();
-  const result = listaUsuario.filter(x => x.nombre == nombre);
+  const result = listaCurso.find(x => x.id == id);
     if(result.length === 0) return false;
   return result;
 }
 
 
-const Create = (req,res) => {
-  res.render('usuario/create',{
-  })
+// NOTE: Acciones
+
+const Create = (req,res) => res.render('curso/create',{
+  modalidades : funciones.convertSelect(require(modalidadesPath),'idModalidad','valor')
+});
+const Index = (req,res) => {
+  Listar();
+  res.render('curso/index', {
+  cursos : listaCurso.filter(x => x.estado == true)
+  });
+}
+
+const View = (req,res) => {
+  const id = req.query.id;
+  Listar();
+  let curso = Buscar(id);
+  if(curso)
+    res.render('curso/view', {
+      id : curso.id,
+      codigo : curso.codigo,
+      nombre : curso.nombre,
+      descripcion : curso.descripcion,
+      valor : curso.valor,
+      modalidad : curso.modalidad, // 1 = virtual , 0=presencial
+      intensidad : curso.intensidad,
+      estado : curso.estado,
+      modalidades : funciones.convertSelect(require(modalidadesPath),'idModalidad','valor')
+    });
+    else
+      res.redirect('./error');
+}
+
+
+const CreatePost = (req,res) => {
+  if( Crear(req.body) );
+    res.redirect('./verCursos');
 }
 
 module.exports = {
+  Index,
   Create,
-  Crear,
-  Mostrar,
-  Buscar,
-  MostrarUsuario
+  CreatePost,
+  View
 }

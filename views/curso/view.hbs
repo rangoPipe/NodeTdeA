@@ -1,0 +1,62 @@
+{{>header }}
+  <div class="container">
+    <div class="card text-center">
+      <div class="card-header">
+        <h1>Datos del Curso <small> {{{ disponibilidad estado }}}</small> </h1>
+      </div>
+
+      <form>
+
+        <div class="card-body">
+          <div class="container text-left">
+              <div class="row">
+
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="codCurso">Código Curso</label>
+                    <input type="text" class="form-control" id="codCurso" name="codCurso" placeholder="Código Curso" value="{{ codigo }}" disabled>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="valor">Valor</label>
+                    <input type="text" class="form-control" id="valor" name="valor" placeholder="Valor" value="{{ valor }}" disabled>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label for="nombre">Nombre del Curso</label>
+                    <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre del curso" required value="{{ nombre }}" disabled>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="intensidad">Intensidad</label>
+                    <input type="text" class="form-control" id="intensidad" name="intensidad" placeholder="Intensidad en horas" value="{{ intensidad }}" disabled>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="modalidad">Modalidad</label>
+                    <select class="form-control" name="modalidad" id="modalidad" disabled>
+                      {{{ selectOption modalidades modalidad}}}
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label for="descripcion">Descripción</label>
+                    <textarea name="descripcion" rows="8" cols="80" class="form-control" id="descripcion" disabled>{{ descripcion }}</textarea>
+                  </div>
+                </div>
+              </div>
+          </div>
+        </div>
+        <div class="card-footer text-muted  text-right">
+          <a  class="btn btn-outline-dark" href="/verCursos">Regresar</a>
+        </div>
+
+      </form>
+    </div>
+  </div>
+{{>footer}}
