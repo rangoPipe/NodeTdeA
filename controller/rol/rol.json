@@ -1,0 +1,17 @@
+[
+  {
+    "id" : "129d803b-3668-49db-b5e2-ec447c0cf545",
+    "nombre" : "Aspirante",
+    "activo" : true
+  },
+  {
+    "id" : "4ca2a3e8-e722-4af7-8c28-d4badec6e38b",
+    "nombre" : "Coordinador",
+    "activo" : true
+  },
+  {
+    "id" : "9fdf6925-3d21-43fa-af1a-e79477f06fe6",
+    "nombre" : "Interesado",
+    "activo" : true
+  }
+]
