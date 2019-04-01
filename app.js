@@ -1,58 +1,40 @@
-const express = require('express');
+
+require('./helpers/helperHbs');
+
 const opn = require('opn');
-const argv = require('./modules/comands/yargs').yargs;
-const crud = require('./modules/estudiante/crud');
-const hbs = require('hbs')
+const hbs = require('hbs');
 const bodyParser = require('body-parser')
-require('./helpers/helperHbs')
-
-
+const express = require('express');
 const app = express();
-hbs.registerPartials(__dirname + '/partials');
+const req = require('./imports');
+
+hbs.registerPartials( req.paths.partials );
 
 app.set('view engine','hbs')
-app.use( express.static(__dirname + '/public'));
-app.use(bodyParser.urlencoded({extended : false}))
+app.use( express.static( req.paths.public ) );
+app.use( bodyParser.urlencoded({extended : false}) );
 
-app.get('/',(req,res) => {
-  res.render('index',{
-    estudiante : req.query.nombre,
-    nota1 : req.body.nota1,
-    nota2 : req.body.nota2,
-    nota3 : req.body.nota3
-  })
+app.use( '/css', express.static( req.paths.css.bootstrap ) );
+app.use( '/css', express.static( req.paths.css.fontawesome ) );
+
+app.use( '/js', express.static( req.paths.js.jquery ) );
+app.use( '/js', express.static( req.paths.js.popper ) );
+app.use( '/js', express.static( req.paths.js.bootstrap ) );
+app.use( '/js', express.static( req.paths.js.fontawesome ) );
+
+
+app.get( '/',req.main.index );
+app.get( '/crearUsuario',req.usuario.Create );
+
+app.get( '/verCursos',req.curso.Index );
+app.get( '/verCurso',req.curso.View );
+app.get( '/crearCurso',req.curso.Create );
+app.post( '/crearCurso',req.curso.CreatePost)
+
+app.get('*',(req,res) => {
+  res.render('main/error')
 });
 
-switch (argv._[0]) {
-  case 'create':
-    crud.Crear(argv);
-  break;
-
-  case 'list':
-    crud.Mostrar();
-  break;
-
-  case 'find':
-    let result = crud.Buscar(argv.nombre);
-    MostrarEstudiante(result);
-  break;
-
-  case 'prom':
-    if(argv.nombre){
-      let promedio = crud.PromedioEst(argv.nombre);
-      console.log(`El promedio del estudiante ${argv.nombre} es ${promedio}`);
-    }
-
-    if(argv.all)
-      crud.PromedioAll();
-
-  break;
-
-
-
-  default:
-    console.error('No se ingreso ningun codigo valido');
-}
 
 app.listen(8080);
-opn('http://localhost:8080');
+//opn('http://localhost:8080', {app: ['google chrome', '--incognito']});
