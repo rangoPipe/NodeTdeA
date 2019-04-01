@@ -9,6 +9,14 @@ const index = (req,res) => {
   })
 }
 
+
+const remover = (req,res) => {
+  res.render('main/delete',{
+    valores : req.query
+  })
+}
+
 module.exports = {
-  index
+  index,
+  remover
 }

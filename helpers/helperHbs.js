@@ -1,10 +1,5 @@
 const hbs = require('hbs')
 
-hbs.registerHelper('ObtenerPromedio',(nota1, nota2, nota3)=>{
-  return (parseFloat(nota1) + parseFloat(nota2) + parseFloat(nota3)) / 3;
-})
-
-
 hbs.registerHelper('ListarCursos', (json) => {
   let tabla = `
     <table class="table table-hover">
@@ -27,7 +22,12 @@ hbs.registerHelper('ListarCursos', (json) => {
       <td>${x.codigo}</td>
       <td>${x.valor}</td>
       <td>${x.descripcion}</td>
-      <td><a class="btn btn-outline-primary" href="/verCurso?id=${x.id}" title="Ver"><i class="fas fa-search"></i></a></td>
+      <td>
+        <a class="btn btn-outline-primary" href="/verCurso?id=${x.idCurso}" title="Ver"><i class="fas fa-search"></i></a>
+        <a class="btn btn-outline-primary" href="/inscribirCurso?id=${x.idCurso}" title="Incripcion del curso"><i class="fas fa-key"></i></a>
+          <a class="btn btn-outline-primary" href="/verInscritos?id=${x.idCurso}" title="Incritos"><i class="fas fa-child"></i></a>
+          <a class="btn btn-outline-danger" href="/remover?id=${x.idCurso}&tipo=Curso" title="Cerrar curso"><i class="fas fa-door-closed"></i></a>
+        </td>
       </tr>`;
     });
 
@@ -37,7 +37,6 @@ hbs.registerHelper('ListarCursos', (json) => {
 
   return tabla;
 });
-
 
 hbs.registerHelper('disponibilidad', (valor) => {
   return (valor) ? '<span class="badge badge-success">Disponible</span>' : '<span class="badge badge-danger">Cerrado</span>';
@@ -49,4 +48,49 @@ hbs.registerHelper('selectOption', (json, current = 0) => {
      option += `<option value="${x.value}" ${( x.value == current )? "selected" : "" }> ${x.display}</option>`
   );
   return option;
+});
+
+hbs.registerHelper('showMessage',(msg,tipo) => {
+  let title = (tipo=='danger')? 'Ocurrio un error' : 'Proceso exitoso';
+  const message = `
+    <div class="alert alert-${tipo}" role="alert">
+      <h4 class="alert-heading">${title}!</h4>
+      <p>${msg}.</p>
+    </div>`;
+  return (tipo) ? message : "";
+})
+
+hbs.registerHelper('ListarEstudiantes', (json = [], idCurso) => {
+  let tabla = `
+    <table class="table table-hover">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Nombre del Estudiante</th>
+        <th scope="col">Número del documento</th>
+        <th scope="col">Télefono</th>
+        <th scope="col">Correo</th>
+        <th scope="col">Opciones</th>
+      </tr>
+    </thead>
+    <tbody>`;
+    json.forEach(( x,i ) => {
+      tabla+= `
+      <tr>
+      <th scope="row">${i+1}</th>
+      <td>${x.nombre}</td>
+      <td>${x.numDoc}</td>
+      <td>${x.telefono}</td>
+      <td>${x.correo}</td>
+      <td>
+        <a class="btn btn-outline-danger" href="/remover?id=${x.idEstudiante}&idCurso=${idCurso}&tipo=Inscripcion" title="Remover Estudiante"><i class="fas fa-trash-alt"></i></a>
+      </td>
+      </tr>`;
+    });
+
+    tabla+=`
+      </tbody>
+    </table>`;
+
+  return tabla;
 });

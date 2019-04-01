@@ -20,10 +20,12 @@ const paths = {
 const main =  require('./controller/main/controller');
 const usuario =  require('./controller/usuario/controller');
 const curso =  require('./controller/curso/controller');
+const inscripcion =  require('./controller/inscripcion/controller');
 
 module.exports = {
   main,
   usuario,
+  inscripcion,
   curso,
   paths
 }
