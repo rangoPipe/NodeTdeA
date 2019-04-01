@@ -11,8 +11,9 @@ const Crear = (curso) => {
   if(listaCurso.filter(x => x.nombre == curso.nombre).length > 0)
     return false;
 
+  let id = uuid();
   let datos = {
-    id : uuid(),
+    idCurso : id,
     codigo : curso.codCurso,
     nombre : curso.nombre,
     descripcion : curso.descripcion,
@@ -23,7 +24,7 @@ const Crear = (curso) => {
   }
 
   listaCurso.push(datos);
-    return Guardar();
+    return (Guardar()) ? id : false;
 }
 
 const Guardar = () => {
@@ -43,9 +44,15 @@ const Listar = () => {
 
 const Buscar = (id) => {
   Listar();
-  const result = listaCurso.find(x => x.id == id);
-    if(result.length === 0) return false;
-  return result;
+  const result = listaCurso.find(x => x.idCurso == id);
+  return (!result) ? false : result;
+}
+
+const Deshabilitar = (id) => {
+  Listar();
+  listaCurso.forEach(x => {
+    if( x.idCurso == id) x.estado = false;
+  })
 }
 
 
@@ -54,6 +61,11 @@ const Buscar = (id) => {
 const Create = (req,res) => res.render('curso/create',{
   modalidades : funciones.convertSelect(require(modalidadesPath),'idModalidad','valor')
 });
+const CreatePost = (req,res) => {
+  if( Crear(req.body) );
+    res.redirect('./verCursos');
+}
+
 const Index = (req,res) => {
   Listar();
   res.render('curso/index', {
@@ -67,12 +79,12 @@ const View = (req,res) => {
   let curso = Buscar(id);
   if(curso)
     res.render('curso/view', {
-      id : curso.id,
+      idCurso : curso.idCurso,
       codigo : curso.codigo,
       nombre : curso.nombre,
       descripcion : curso.descripcion,
       valor : curso.valor,
-      modalidad : curso.modalidad, // 1 = virtual , 0=presencial
+      modalidad : curso.modalidad,
       intensidad : curso.intensidad,
       estado : curso.estado,
       modalidades : funciones.convertSelect(require(modalidadesPath),'idModalidad','valor')
@@ -81,15 +93,16 @@ const View = (req,res) => {
       res.redirect('./error');
 }
 
-
-const CreatePost = (req,res) => {
-  if( Crear(req.body) );
-    res.redirect('./verCursos');
+const RemovePost = (req,res) => {
+  Deshabilitar(req.body.id);
+  res.redirect('./verCursos')
 }
 
 module.exports = {
   Index,
   Create,
   CreatePost,
-  View
+  View,
+  Buscar,
+  RemovePost
 }

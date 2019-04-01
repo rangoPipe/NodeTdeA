@@ -1,0 +1,52 @@
+{{>header }}
+
+{{{ showMessage msg alerta }}}
+  <div class="container">
+    <div class="card text-center">
+      <div class="card-header">
+        {{ nomCurso }}
+      </div>
+
+      <form method="post" action="/crearInscripcion">
+
+        <div class="card-body">
+          <div class="container text-left">
+              <div class="row">
+                <input type="hidden" name="idCurso" id="idCurso" value="{{ idCurso }}">
+                <input type="hidden" name="nomCurso" id="nomCurso" value="{{ nomCurso }}">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="numDoc">Documento de identidad</label>
+                    <input type="text" class="form-control" id="numDoc" name="numDoc" placeholder="Número del documento" required>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="nombre">Nombre Completo</label>
+                    <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre Completo" required>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="correo">Correo</label>
+                    <input type="text" class="form-control" id="correo" name="correo" placeholder="Correo electronico">
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="telefono">Teléfono</label>
+                    <input type="text" class="form-control" id="telefono" name="telefono" placeholder="Teléfono">
+                  </div>
+                </div>
+              </div>
+          </div>
+        </div>
+        <div class="card-footer text-muted  text-right">
+          <button type="submit" name="button" class="btn btn-outline-success" title="Guardar"><i class="far fa-save"></i> Inscribir</button>
+          <a  class="btn btn-outline-dark" href="/verCursos">Cancelar</a>
+        </div>
+
+      </form>
+    </div>
+  </div>
+{{>footer}}
