@@ -13,9 +13,11 @@
     "yargs": "^13.2.2",
     "bootstrap": "^4.3.1"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@fortawesome/fontawesome-free": "^5.8.1"
+  },
   "scripts": {
-    "start" : "node app.js ",
+    "start": "node app.js ",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
