@@ -1,0 +1,31 @@
+{
+  "name": "nodetdea",
+  "version": "1.0.0",
+  "description": "Curso introductivo de Node.js dictado por el TdeA",
+  "main": "app.js",
+  "dependencies": {
+    "express": "^4.16.4",
+    "hbs": "^4.0.3",
+    "jquery": "^3.3.1",
+    "opn": "^6.0.0",
+    "popper.js": "^1.14.7",
+    "uuid": "^3.3.2",
+    "yargs": "^13.2.2",
+    "bootstrap": "^4.3.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start" : "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rangoPipe/NodeTdeA.git"
+  },
+  "author": "Farango@ideassimples.com.co",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rangoPipe/NodeTdeA/issues"
+  },
+  "homepage": "https://github.com/rangoPipe/NodeTdeA#readme"
+}
