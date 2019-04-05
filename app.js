@@ -41,6 +41,8 @@ app.post('/removerInscripcion',req.inscripcion.RemovePost)
 
 app.get('*',(req,res) => res.render('main/error'));
 
-
-app.listen(8080);
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+  console.log(`Servidor en el puerto ${port}`);
+});
 //opn('http://localhost:8080', {app: ['google chrome', '--incognito']});
