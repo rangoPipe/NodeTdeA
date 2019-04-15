@@ -3,12 +3,13 @@ const uuid = require('uuid/v4');
 const bdPath = `../../BD/curso.json`;
 const modalidadesPath = '../../BD/modalidades.json';
 const funciones = require('../../funciones');
+const mongoose = require('../../model/curso');
 
 listaCurso = [];
 
 const Crear = (curso) => {
-  Listar();
-  if(listaCurso.filter(x => x.nombre == curso.nombre).length > 0)
+  /*Listar();
+  /if(listaCurso.filter(x => x.nombre == curso.nombre).length > 0)
     return false;
 
   let id = uuid();
@@ -24,7 +25,24 @@ const Crear = (curso) => {
   }
 
   listaCurso.push(datos);
-    return (Guardar()) ? id : false;
+    return (Guardar()) ? id : false;*/
+
+    const curso = new mongoose({
+      codigo : curso.codigo,
+      nombre : curso.nombre,
+      descripcion : curso.descripcion,
+      valor: curso.valor,
+      modalidad : curso.modalidad,
+      intensidad : curso.intesidad,
+      estado : true
+    });
+
+    curso.save((err,res)=>{
+      if(err){
+        console.log(err);
+      }
+      else console.log(res);
+    });
 }
 
 const Guardar = () => {
@@ -61,6 +79,7 @@ const Deshabilitar = (id) => {
 const Create = (req,res) => res.render('curso/create',{
   modalidades : funciones.convertSelect(require(modalidadesPath),'idModalidad','valor')
 });
+
 const CreatePost = (req,res) => {
   if( Crear(req.body) );
     res.redirect('./verCursos');

@@ -7,6 +7,7 @@ const bodyParser = require('body-parser')
 const express = require('express');
 const app = express();
 const req = require('./imports');
+const mongoose = require('mongoose');
 
 hbs.registerPartials( req.paths.partials );
 
@@ -42,6 +43,11 @@ app.post('/removerInscripcion',req.inscripcion.RemovePost)
 app.get('*',(req,res) => res.render('main/error'));
 
 const port = process.env.PORT || 3000;
+mongoose.connect('mongodb://localhost:27017/CursoTdeA', {useNewUrlParser: true},(err,res)=>{
+  if(err)
+    return console.log("no se pudo conectar");
+    console.log("conexion exitosa");
+});
 app.listen(port, () => {
   console.log(`Servidor en el puerto ${port}`);
 });
