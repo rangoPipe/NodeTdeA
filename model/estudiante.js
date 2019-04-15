@@ -1,9 +1,8 @@
 
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const ObjectId = Schema.ObjectId;
 
-const estudianteSchema = new Schema({
+const estudianteModel = new Schema({
   numDoc : {
     type : Number,
     required : true
@@ -23,5 +22,4 @@ const estudianteSchema = new Schema({
   },
 });
 
-const Estudiante = mongoose.model('Estudiante', estudianteSchema);
-module.exports = Estudiante;
+module.exports = mongoose.model('Estudiante', estudianteModel);

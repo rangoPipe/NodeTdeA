@@ -27,17 +27,17 @@ const Crear = (curso) => {
   listaCurso.push(datos);
     return (Guardar()) ? id : false;*/
 
-    const curso = new mongoose({
-      codigo : curso.codigo,
-      nombre : curso.nombre,
-      descripcion : curso.descripcion,
-      valor: curso.valor,
-      modalidad : curso.modalidad,
-      intensidad : curso.intesidad,
+    const cursoModel = new mongoose({
+      codigo : cursoModel.codigo,
+      nombre : cursoModel.nombre,
+      descripcion : cursoModel.descripcion,
+      valor: cursoModel.valor,
+      modalidad : cursoModel.modalidad,
+      intensidad : cursoModel.intesidad,
       estado : true
     });
 
-    curso.save((err,res)=>{
+    cursoModel.save((err,res)=>{
       if(err){
         console.log(err);
       }
@@ -61,9 +61,19 @@ const Listar = () => {
 }
 
 const Buscar = (id) => {
-  Listar();
+  /*Listar();
   const result = listaCurso.find(x => x.idCurso == id);
-  return (!result) ? false : result;
+  return (!result) ? false : result;*/
+
+  const curso = new mongoose();
+
+  curso.find({id:_id}).exec((err,res) => {
+    if(err)
+      console.log(err);
+      else {
+        console.log(res);
+      }
+  });
 }
 
 const Deshabilitar = (id) => {
@@ -86,6 +96,16 @@ const CreatePost = (req,res) => {
 }
 
 const Index = (req,res) => {
+
+  mongoose.find({codigo:"1"}).exec((err,res) => {
+    if(err)
+      console.log(err);
+      else {
+        console.log(res);
+      }
+  });
+
+
   Listar();
   res.render('curso/index', {
   cursos : listaCurso.filter(x => x.estado == true)
@@ -110,6 +130,26 @@ const View = (req,res) => {
     });
     else
       res.redirect('./error');
+}
+
+const Update = (curso) => {
+  mongoose.findOneAndUpdate({_id:curso.id},curso,{new : true},(err,res)=>{
+    if (err) {
+      console.log(err);
+    }else {
+      console.log(res);
+    }
+  })
+}
+
+const Delete = (curso) => {
+  mongoose.findOneAndDelete({_id:curso.id},curso,(err,res)=>{
+    if (err) {
+      console.log(err);
+    }else {
+      console.log(res);
+    }
+  })
 }
 
 const RemovePost = (req,res) => {

@@ -10,16 +10,20 @@ const cursoSchema = new Schema({
   },
   nombre : {
     type : String,
-    required : true
+    required : true,
+    trim : true
   },
   descripcion : {
     type : String
   },
   valor : {
-    type : Number
+    type : Number,
+    default: 0
+    min : [0,'Ingrese un valor mayor a 0']
   },
   modalidad : {
-    type : String
+    type : String,
+    enum : { values: ["Presencial","Virtual"] }
   },
   intesidad : {
     type : String
@@ -28,6 +32,8 @@ const cursoSchema = new Schema({
     type : Boolean
   }
 });
+
+//mongoose-unique-validator
 
 const Curso = mongoose.model('Curso', cursoSchema);
 module.exports = Curso;
