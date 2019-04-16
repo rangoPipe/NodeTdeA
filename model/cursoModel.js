@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
 
-const cursoSchema = new Schema({
+const CursoModel = new Schema({
   codigo : {
     type : String,
     required : true
@@ -18,7 +18,7 @@ const cursoSchema = new Schema({
   },
   valor : {
     type : Number,
-    default: 0
+    default: 0,
     min : [0,'Ingrese un valor mayor a 0']
   },
   modalidad : {
@@ -35,5 +35,4 @@ const cursoSchema = new Schema({
 
 //mongoose-unique-validator
 
-const Curso = mongoose.model('Curso', cursoSchema);
-module.exports = Curso;
+module.exports =  mongoose.model('curso', CursoModel);;

@@ -3,11 +3,12 @@ const uuid = require('uuid/v4');
 const bdPath = `../../BD/curso.json`;
 const modalidadesPath = '../../BD/modalidades.json';
 const funciones = require('../../funciones');
-const mongoose = require('../../model/curso');
+const mongoose = require('../../model/cursoModel');
 
 listaCurso = [];
 
-const Crear = (curso) => {
+const Crear = async (curso) => {
+  return
   /*Listar();
   /if(listaCurso.filter(x => x.nombre == curso.nombre).length > 0)
     return false;
@@ -37,7 +38,7 @@ const Crear = (curso) => {
       estado : true
     });
 
-    cursoModel.save((err,res)=>{
+    return cursoModel.save((err,res)=>{
       if(err){
         console.log(err);
       }
@@ -60,7 +61,7 @@ const Listar = () => {
   }
 }
 
-const Buscar = (id) => {
+const Buscar = async (id) => {
   /*Listar();
   const result = listaCurso.find(x => x.idCurso == id);
   return (!result) ? false : result;*/
@@ -95,14 +96,15 @@ const CreatePost = (req,res) => {
     res.redirect('./verCursos');
 }
 
-const Index = (req,res) => {
+const Index = async (req,res) => {
 
-  mongoose.find({codigo:"1"}).exec((err,res) => {
+   mongoose.find({codigo:"1"},(err,res) => {
     if(err)
       console.log(err);
       else {
         console.log(res);
       }
+      console.log('por aca');
   });
 
 
