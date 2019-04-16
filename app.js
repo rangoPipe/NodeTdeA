@@ -43,7 +43,7 @@ app.post('/removerInscripcion',req.inscripcion.RemovePost)
 app.get('*',(req,res) => res.render('main/error'));
 
 const port = process.env.PORT || 3000;
-mongoose.connect('mongodb://localhost:27017/CursoTdeA', {useNewUrlParser: true},(err,res)=>{
+mongoose.connect('mongodb://localhost:27017/dbNodeTdeA', {useNewUrlParser: true},(err,res)=>{
   if(err)
     return console.log("no se pudo conectar");
     console.log("conexion exitosa");

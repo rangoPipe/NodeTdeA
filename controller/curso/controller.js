@@ -3,12 +3,12 @@ const uuid = require('uuid/v4');
 const bdPath = `../../BD/curso.json`;
 const modalidadesPath = '../../BD/modalidades.json';
 const funciones = require('../../funciones');
-const mongoose = require('../../model/cursoModel');
+const logic = require('../../logic/cursoLogic')
 
 listaCurso = [];
 
 const Crear = async (curso) => {
-  return
+
   /*Listar();
   /if(listaCurso.filter(x => x.nombre == curso.nombre).length > 0)
     return false;
@@ -27,23 +27,16 @@ const Crear = async (curso) => {
 
   listaCurso.push(datos);
     return (Guardar()) ? id : false;*/
+    let find = await logic.FindOneAsync({codigo:curso.codCurso});
+    if(!find){
+      let create = await logic.CreateAsync(curso);
+      console.log(create);
+    }
+    console.log(find);
 
-    const cursoModel = new mongoose({
-      codigo : cursoModel.codigo,
-      nombre : cursoModel.nombre,
-      descripcion : cursoModel.descripcion,
-      valor: cursoModel.valor,
-      modalidad : cursoModel.modalidad,
-      intensidad : cursoModel.intesidad,
-      estado : true
-    });
+    return;
 
-    return cursoModel.save((err,res)=>{
-      if(err){
-        console.log(err);
-      }
-      else console.log(res);
-    });
+
 }
 
 const Guardar = () => {
@@ -97,21 +90,10 @@ const CreatePost = (req,res) => {
 }
 
 const Index = async (req,res) => {
-
-   mongoose.find({codigo:"1"},(err,res) => {
-    if(err)
-      console.log(err);
-      else {
-        console.log(res);
-      }
-      console.log('por aca');
-  });
-
-
-  Listar();
-  res.render('curso/index', {
-  cursos : listaCurso.filter(x => x.estado == true)
-  });
+   let datos = await logic.FindAllAsync();
+    res.render('curso/index', {
+      cursos : datos.filter(x => x.estado == true)
+    });
 }
 
 const View = (req,res) => {

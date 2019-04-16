@@ -1,7 +1,6 @@
 
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const ObjectId = Schema.ObjectId;
 
 const CursoModel = new Schema({
   codigo : {
@@ -23,7 +22,7 @@ const CursoModel = new Schema({
   },
   modalidad : {
     type : String,
-    enum : { values: ["Presencial","Virtual"] }
+    enum : { values: [0,1] }
   },
   intesidad : {
     type : String
@@ -34,5 +33,4 @@ const CursoModel = new Schema({
 });
 
 //mongoose-unique-validator
-
-module.exports =  mongoose.model('curso', CursoModel);;
+module.exports =  mongoose.model('curso', CursoModel);
