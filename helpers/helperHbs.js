@@ -23,10 +23,10 @@ hbs.registerHelper('ListarCursos', (json) => {
       <td>${x.valor}</td>
       <td>${x.descripcion}</td>
       <td>
-        <a class="btn btn-outline-primary" href="/verCurso?id=${x.idCurso}" title="Ver"><i class="fas fa-search"></i></a>
-        <a class="btn btn-outline-primary" href="/inscribirCurso?id=${x.idCurso}" title="Incripcion del curso"><i class="fas fa-key"></i></a>
-          <a class="btn btn-outline-primary" href="/verInscritos?id=${x.idCurso}" title="Incritos"><i class="fas fa-child"></i></a>
-          <a class="btn btn-outline-danger" href="/remover?id=${x.idCurso}&tipo=Curso" title="Cerrar curso"><i class="fas fa-door-closed"></i></a>
+        <a class="btn btn-outline-primary" href="/verCurso?id=${x._id}" title="Ver"><i class="fas fa-search"></i></a>
+        <a class="btn btn-outline-primary" href="/inscribirCurso?id=${x._id}" title="Incripcion del curso"><i class="fas fa-key"></i></a>
+          <a class="btn btn-outline-primary" href="/verInscritos?id=${x._id}" title="Incritos"><i class="fas fa-child"></i></a>
+          <a class="btn btn-outline-danger" href="/remover?id=${x._id}&tipo=Curso" title="Cerrar curso"><i class="fas fa-door-closed"></i></a>
         </td>
       </tr>`;
     });

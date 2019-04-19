@@ -1,70 +1,22 @@
-const fs = require('fs');
-const uuid = require('uuid/v4');
-const pathJson = 'usuario.json';
+const logic = require('../../logic/usuarioLogic');
 
-listaUsuario = [];
-
-const Crear = (usuario) => {
-  Listar();
-  if(listaUsuario.filter(x => x.nombre == usuario.nombre).length > 0)
-    return false;
-
-  let datos = {
-    id : uuid(),
-    numDoc : usuario.numDoc,
-    nombre : usuario.nombre,
-    correo : usuario.correo,
-    telefono : usuario.telefono,
-    id_rol : usuario.id_rol
-  }
-
-  listaUsuario.push(datos);
-  Guardar();
+const Create = async (req,res) => {
+  console.log(req);
+  let find = await logic.FindOneAsync({nombre:req.body.nombre});
+  if(!find.data)
+     await logic.CreateAsync(req.body);
+  res.redirect('/')
 }
 
-const Guardar = () => {
-  fs.writeFile(pathJson, JSON.stringify(listaUsuario), (err) => {
-    if(err) throw (err);
-    return true;
-  });
-}
+const View = async(req,res) => {
 
-const Listar = () => {
-  try {
-    listaUsuario = require(pathJson);
-  } catch (e) {
-    listaUsuario = [];
-  }
-}
-
-const Mostrar = () => {
-  Listar();
-  listaUsuario.forEach(x =>  MostrarUsuario(x));
-}
-
-const MostrarUsuario = ( usuario ) => {
-    Object.keys(usuario).forEach( i => {
-      console.log(i,usuario[i]);
-    })
-}
-
-const Buscar = (nombre) => {
-  Listar();
-  const result = listaUsuario.filter(x => x.nombre == nombre);
-    if(result.length === 0) return false;
-  return result;
-}
-
-
-const Create = (req,res) => {
-  res.render('usuario/create',{
-  })
+  const id = (req.query.id) ? req.query.id : 0;
+  let usuario = await logic.FindByIdAsync(id);
+  let data = (usuario.success) ? usuario.data : {};
+  res.render(`usuario/${ (id==0) ? 'create' : 'view' }`, data);
 }
 
 module.exports = {
   Create,
-  Crear,
-  Mostrar,
-  Buscar,
-  MostrarUsuario
+  View
 }

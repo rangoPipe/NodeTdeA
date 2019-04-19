@@ -18,8 +18,9 @@ const estudianteModel = new Schema({
     type : String
   },
   estado : {
-    type : Boolean
+    type : Boolean,
+    default: true
   },
 });
 
-module.exports = mongoose.model('Estudiante', estudianteModel);
+module.exports = mongoose.model('estudiante', estudianteModel);

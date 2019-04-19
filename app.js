@@ -27,18 +27,19 @@ app.use( '/js', express.static( req.paths.js.fontawesome ) );
 app.get( '/',req.main.index );
 app.get( '/remover',req.main.remover );
 
-app.get( '/crearUsuario',req.usuario.Create );
+app.get( '/crearUsuario',req.usuario.View );
+app.post( '/crearUsuario',req.usuario.Create);
 
 app.get( '/verCursos',req.curso.Index );
 app.get( '/verCurso',req.curso.View );
-app.get( '/crearCurso',req.curso.Create );
-app.post( '/crearCurso',req.curso.CreatePost);
-app.post( '/removerCurso',req.curso.RemovePost);
+app.get( '/crearCurso',req.curso.View );
+app.post( '/crearCurso',req.curso.Create);
+app.post( '/removerCurso',req.curso.Delete);
 
-app.get('/inscribirCurso',req.inscripcion.Create)
+app.get('/inscribirCurso',req.inscripcion.ViewEstudiante)
 app.get('/verInscritos',req.inscripcion.View)
-app.post('/crearInscripcion',req.inscripcion.CreatePost)
-app.post('/removerInscripcion',req.inscripcion.RemovePost)
+app.post('/crearInscripcion',req.inscripcion.Create)
+app.post('/removerInscripcion',req.inscripcion.Delete)
 
 app.get('*',(req,res) => res.render('main/error'));
 

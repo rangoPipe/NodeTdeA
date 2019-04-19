@@ -1,8 +1,8 @@
-const mongoose = require('../model/cursoModel');
+const mongoose = require('../model/modalidadModel');
 
-const FindAllAsync = (parametros) => {
+const FindAllAsync = (filtro) => {
   return new Promise( (resolve, reject) => {
-    mongoose.find(parametros).exec((err,res) => {
+    mongoose.find(filtro).exec((err,res) => {
       (err)
         ? resolve({ success:false, data:err })
         : resolve({ success:true, data:res });
@@ -33,14 +33,7 @@ const FindByIdAsync = (id) => {
 const CreateAsync =  ( Model ) => {
   return new Promise( (resolve, reject) => {
 
-    let curso = new mongoose(
-      { codigo : Model.codCurso,
-        nombre : Model.nombre,
-        descripcion : Model.descripcion,
-        valor: Model.valor,
-        modalidad : Model.modalidad,
-        intensidad : Model.intesidad,
-        estado : true});
+    let curso = new mongoose( Model );
 
     curso.save((err,res) => {
       (err)

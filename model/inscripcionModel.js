@@ -1,12 +1,9 @@
 
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const ObjectId = mongoose.Schema.Types.ObjectId;
 
 const inscripcionModel = new Schema({
-  numDoc : {
-    type : Number,
-    required : true
-  },
   idCurso : {
     type : ObjectId,
     required : true
@@ -16,7 +13,8 @@ const inscripcionModel = new Schema({
     required : true
   },
   estado : {
-    type : Boolean
+    type : Boolean,
+    default: true
   },
 });
 

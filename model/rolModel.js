@@ -2,7 +2,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const ModalidadModel = new Schema({
+const rolModel = new Schema({
   valor : {
     type : String,
     required : true,
@@ -11,9 +11,13 @@ const ModalidadModel = new Schema({
   descripcion : {
     type : String,
     trim : true
+  },
+  estado : {
+    type : Boolean,
+    default: true
   }
 });
 
 //mongoose-unique-validator
 
-module.exports = mongoose.model('Modalidad', ModalidadModel);
+module.exports = mongoose.model('rol', rolModel);

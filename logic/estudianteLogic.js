@@ -1,4 +1,4 @@
-const mongoose = require('../model/cursoModel');
+const mongoose = require('../model/estudianteModel');
 
 const FindAllAsync = (parametros) => {
   return new Promise( (resolve, reject) => {
@@ -34,12 +34,10 @@ const CreateAsync =  ( Model ) => {
   return new Promise( (resolve, reject) => {
 
     let curso = new mongoose(
-      { codigo : Model.codCurso,
+      { numDoc : Model.numDoc,
         nombre : Model.nombre,
-        descripcion : Model.descripcion,
-        valor: Model.valor,
-        modalidad : Model.modalidad,
-        intensidad : Model.intesidad,
+        correo : Model.correo,
+        telefono: Model.telefono,
         estado : true});
 
     curso.save((err,res) => {
