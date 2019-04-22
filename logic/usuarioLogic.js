@@ -1,4 +1,5 @@
 const mongoose = require('../model/usuarioModel');
+const bcrypt = require('bcrypt');
 
 const FindAllAsync = (parametros) => {
   return new Promise( (resolve, reject) => {
@@ -32,7 +33,8 @@ const FindByIdAsync = (id) => {
 
 const CreateAsync =  ( Model ) => {
   return new Promise( (resolve, reject) => {
-
+    Model.nickname = Model.nick;
+    Model.password = bcrypt.hashSync(Model.pass, 10);
     let curso = new mongoose( Model );
 
     curso.save((err,res) => {
@@ -65,11 +67,28 @@ const DeleteAsync =  ( Model ) => {
     });
 }
 
+const LoginAsync = ( usuario , contra ) => {
+  return new Promise( (resolve) => {
+    mongoose.findOne({ nickname:usuario }).exec((err,res) => {
+      if(err)
+        resolve({ success:false, data:err });
+      if(res){
+         if(bcrypt.compareSync(contra,res.password))
+           resolve({ success:true, data:res })
+
+      }
+      resolve({ success:false, data:[] });
+
+   });
+  });
+}
+
 module.exports = {
   FindAllAsync,
   FindOneAsync,
   FindByIdAsync,
   CreateAsync,
   UpdateAsync,
-  DeleteAsync
+  DeleteAsync,
+  LoginAsync
 }

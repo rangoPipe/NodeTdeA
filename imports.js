@@ -13,7 +13,8 @@ const paths = {
     jquery : `${assets}/jquery/dist`,
     popper : `${assets}/popper.js/dist/umd`,
     bootstrap : `${assets}/bootstrap/dist/js`,
-    fontawesome : `${assets}/@fortawesome/fontawesome-free/js`
+    fontawesome : `${assets}/@fortawesome/fontawesome-free/js`,
+    public : `${__dirname}/public/assets/js`
   }
 }
 

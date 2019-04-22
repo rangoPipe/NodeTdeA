@@ -5,13 +5,15 @@
   "main": "app.js",
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.8.1",
+    "bcrypt": "^3.0.6",
     "bootstrap": "^4.3.1",
     "express": "^4.16.4",
-    "hbs": "^4.0.3",
-    "jquery": "^3.3.1",
+    "express-session": "^1.16.1",
+    "hbs": "^4.0.4",
+    "jquery": "^3.4.0",
     "mongoose": "^5.5.2",
     "opn": "^6.0.0",
-    "popper.js": "^1.14.7",
+    "popper.js": "^1.15.0",
     "uuid": "^3.3.2",
     "yargs": "^13.2.2"
   },

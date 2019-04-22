@@ -19,8 +19,16 @@ const usuarioModel = new Schema({
   telefono : {
     type : String
   },
+  nickname : {
+    type : String,
+    required : true
+  },
+  password : {
+    type : String,
+    required : true
+  },
   id_rol : {
-    type : Number
+    type : ObjectId
   },
   estado : {
     type : Boolean,

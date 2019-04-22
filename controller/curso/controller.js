@@ -1,6 +1,7 @@
 const funciones = require('../../funciones');
 const logic = require('../../logic/cursoLogic')
-const modalidadLogic = require('../../logic/modalidadLogic')
+const modalidadLogic = require('../../logic/modalidadLogic');
+const rolLogic = require('../../logic/rolLogic');
 
 // NOTE: Acciones
 
@@ -13,6 +14,8 @@ const Create = async (req,res) => {
 
 const Index = async (req,res) => {
    let datos = await logic.FindAllAsync({});
+   let rol = await rolLogic.FindByIdAsync(req.session.id_rol);
+     console.log('rol',req.session.session);
     res.render('curso/index', {
       cursos : (datos.success) ? datos.data.filter(x => x.estado == true) : null
     });
