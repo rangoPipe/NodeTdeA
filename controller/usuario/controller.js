@@ -42,8 +42,19 @@ const Loggear = async (req, res) => {
   res.send({success : false, data : "Error al iniciar sesión"})
 }
 
+const Logout = async (req, res) => {
+
+    req.session.session = null;
+    req.session.nick = null;
+    req.session.idUsuario = null;
+    req.session.id_rol = null;
+
+    res.send({success : true, data : "Operacion Exitosa"});
+}
+
 module.exports = {
   Create,
   View,
-  Loggear
+  Loggear,
+  Logout
 }

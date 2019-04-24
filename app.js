@@ -19,7 +19,7 @@ app.use( bodyParser.urlencoded({extended : false}) );
 
 app.use(session({
   secret: 'keyboard cat',
-  resave: false,
+  resave: true,
   saveUninitialized: true
 }))
 
@@ -27,7 +27,7 @@ app.use((req,res,next) => {
   res.locals.session = (req.session.session) ? (req.session.session) : null;
   res.locals.nickname = (req.session.nick) ? (req.session.nick) : null;
   res.locals.idUsuario = (req.session.idUsuario) ? (req.session.idUsuario) : null;
-   next()
+  next()
 })
 
 
@@ -60,6 +60,7 @@ app.post('/removerInscripcion',req.inscripcion.Delete)
 
 
 app.post('/api/Loggear',req.usuario.Loggear)
+app.post('/Logout',req.usuario.Logout)
 
 app.get('*',(req,res) => res.render('main/error'));
 

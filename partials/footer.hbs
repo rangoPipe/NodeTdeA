@@ -16,5 +16,8 @@
   {{#unless session }}
     <script type="text/javascript" src="/js/login.js"></script>
   {{/unless}}
+  {{#if session }}
+    <script type="text/javascript" src="/js/logout.js"></script>
+  {{/if}}
   <script type="text/javascript" src="/js/all.js"></script>
 </html>

@@ -17,16 +17,23 @@
           <li class="nav-item active">
             <a class="nav-link" href="/">Inicio <span class="sr-only">(current)</span></a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/verCursos">Curso</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/crearUsuario">Crear Usuario</a>
-          </li>
+          {{#if session }}
+            <li class="nav-item">
+              <a class="nav-link" href="/verCursos">Curso</a>
+            </li>
+          {{/if}}
+            <li class="nav-item">
+              <a class="nav-link" href="/crearUsuario">Crear Usuario</a>
+            </li>
         </ul>
+
         {{#unless session }}
           <button class="btn btn-outline-success my-2 my-sm-0" type="button" id="btnLogin">Iniciar Sesión</button>
         {{/unless}}
+
+        {{#if session }}
+          <button class="btn btn-outline-danger my-2 my-sm-0" type="button" id="btnLogout">Cerrar Sesión</button>
+        {{/if}}
       </div>
     </nav>
 
