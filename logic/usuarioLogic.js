@@ -31,7 +31,7 @@ const FindByIdAsync = (id) => {
   });
 }
 
-const CreateAsync =  ( Model ) => {
+const CreateAsync =  ( Model, avatar ) => {
   return new Promise( (resolve, reject) => {
     Model.nickname = Model.nick;
     Model.password = bcrypt.hashSync(Model.pass, 10);

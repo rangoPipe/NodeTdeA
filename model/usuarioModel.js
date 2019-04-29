@@ -33,6 +33,9 @@ const usuarioModel = new Schema({
   estado : {
     type : Boolean,
     default: true
+  },
+  avatar : {
+    type : Buffer
   }
 });
 //mongoose-unique-validator

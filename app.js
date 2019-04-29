@@ -9,7 +9,20 @@ const app = express();
 const req = require('./imports');
 const mongoose = require('mongoose');
 const session = require('express-session');
-const sgMail = require('@sendgrid/mail');
+const multer  = require('multer');
+const path = require('path');
+
+/*var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/')
+  },
+  filename: function (req, file, cb) {
+    cb(null,'ava-' + req.body.nick + path.extname(file.originalname))
+  }
+})
+
+const upload = multer({ storage: storage })*/
+//const upload = multer({ dest: 'uploads/' })
 
 process.env.PORT = process.env.PORT || 3000;
 process.env.URLDB = process.env.URLDB || 'mongodb://localhost:27017/dbNodeTdeA';
@@ -32,6 +45,7 @@ app.use((req,res,next) => {
   res.locals.session = (req.session.session) ? (req.session.session) : null;
   res.locals.nickname = (req.session.nick) ? (req.session.nick) : null;
   res.locals.idUsuario = (req.session.idUsuario) ? (req.session.idUsuario) : null;
+  res.locals.avatar = (req.session.avatar) ? (req.session.avatar) : null;
   next()
 })
 
@@ -50,7 +64,7 @@ app.get( '/',req.main.index );
 app.get( '/remover',req.main.remover );
 
 app.get( '/crearUsuario',req.usuario.View );
-app.post( '/crearUsuario',req.usuario.Create);
+app.post( '/crearUsuario',new multer().single('avatar'), req.usuario.Create);
 
 app.get( '/verCursos',req.curso.Index );
 app.get( '/verCurso',req.curso.View );
@@ -80,14 +94,4 @@ app.listen(process.env.PORT, () => {
   console.log(`Servidor en el puerto ${process.env.PORT}`);
 });
 
-/*
-sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-const msg = {
-  to: 'farango@ideassimples.com.co',
-  from: 'farango@ideassimples.com.co',
-  subject: 'Sending with SendGrid is Fun',
-  text: 'and easy to do anywhere, even with Node.js',
-  html: '<strong>and easy to do anywhere, even with Node.js</strong>',
-};
-sgMail.send(msg);*/
 //opn('http://localhost:8080', {app: ['google chrome', '--incognito']});

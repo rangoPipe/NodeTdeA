@@ -6,7 +6,7 @@
       <div class="card-header">
         Crear Usuario
       </div>
-      <form method="post" action="/crearUsuario">
+      <form method="post" action="/crearUsuario" enctype="multipart/form-data">
       <div class="card-body">
         <div class="container text-left">
           <div class="row">
@@ -52,6 +52,13 @@
                 <select class="form-control" name="id_rol" id="id_rol">
                   {{{ selectOption roles id_rol}}}
                 </select>
+              </div>
+          </div>
+
+          <div class="col-md-6">
+              <div class="form-group">
+                <label for="avatar">Imagen de perfil</label>
+                <input type="file" name="avatar" id="avatar" accept="image/*" required>
               </div>
           </div>
 
