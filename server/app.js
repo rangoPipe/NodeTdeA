@@ -11,11 +11,26 @@ const io = require('socket.io')(server);
 const dirPublic = path.join(__dirname,"../public");
 app.use(express.static(dirPublic));
 
-io.on('connection', client => {
-  console.log('alguien se conecto');
+let contador = 0;
 
-  client.on('event', data => { /* … */ });
-  client.on('disconnect', () => { /* … */ });
+io.on('connection', client => {
+
+    client.emit("mensaje","bienvenido")
+    client.on("mensaje",(info) => {
+      console.log(info)
+    });
+
+    client.on("contador", () => {
+      contador++;
+      console.log(`Cantidad de usuarios ${contador}`);
+      io.emit("contador",contador)
+    });
+
+  //client.on('event', data => { /* … */ });
+  client.on('disconnect', () => {
+    contador--;
+    console.log(`Cantidad de usuarios ${contador}`);
+  });
 
 });
 
