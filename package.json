@@ -1,0 +1,25 @@
+{
+  "name": "nodetdea",
+  "version": "3.0.0",
+  "description": "Pruebas con Socket.io",
+  "main": "server/app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "app": "nodemon server/app -e js,hbs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rangoPipe/NodeTdeA.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rangoPipe/NodeTdeA/issues"
+  },
+  "homepage": "https://github.com/rangoPipe/NodeTdeA#readme",
+  "dependencies": {
+    "express": "^4.16.4",
+    "path": "^0.12.7",
+    "socket.io": "^2.2.0"
+  }
+}
