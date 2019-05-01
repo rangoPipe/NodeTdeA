@@ -24,6 +24,14 @@ const path = require('path');
 const upload = multer({ storage: storage })*/
 //const upload = multer({ dest: 'uploads/' })
 
+const upload =  multer({fileFilter (req, file, cb) {
+
+  if(!file.originalname.match(/\.(jpg|png|jpeg)$/))
+    cb(new Error('Formatos incorrectos'));
+  cb(null, true)
+
+}})
+
 process.env.PORT = process.env.PORT || 3000;
 process.env.URLDB = process.env.URLDB || 'mongodb://localhost:27017/dbNodeTdeA';
 process.env.SENDGRID_API_KEY = 'SG.ENjsENkKQ2eeBlcAE1wRlw.7eJ9yv5_E6R_6Q1vKAo_meREssrr8_R3_V1XUJx3qGk';
