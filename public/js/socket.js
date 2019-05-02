@@ -1,8 +1,8 @@
 socket = io()
 
-socket.on("mensaje",(info) => {
-  console.log(info)
-});
+const formulario = document.querySelector('#formulario');
+const chat = document.querySelector('#chat');
+const mensaje = formulario.querySelector('#texto')
 
   socket.emit("contador")
 
@@ -11,12 +11,18 @@ socket.on("mensaje",(info) => {
     console.log(info)
   });
 
+  socket.on("mensaje",(info) => {
+    if(info.texto)chat.innerHTML =`${chat.innerHTML} </br> ${info.nombre}: ${info.texto}`;
+  });
 
-document.querySelector('#formulario').addEventListener('submit',(e)=>{
+formulario.addEventListener('submit',(e) => {
   e.preventDefault();
   const texto = e.target.elements.texto.value;
   const nombre = e.target.elements.nombre.value;
-  socket.emit("mensaje",{texto : texto , nombre: nombre});
-})
+  socket.emit("mensaje",
+    { texto : texto , nombre: nombre }, () => {
 
-document.querySelector
+      mensaje.value = ""
+      mensaje.focus()
+    });
+})

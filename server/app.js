@@ -23,8 +23,9 @@ io.on('connection', client => {
       io.emit("contador",contador)
     });
 
-    client.on("mensaje", (mensaje) => {
+    client.on("mensaje", (mensaje, callback) => {
       io.emit("mensaje",mensaje)
+      callback()
     });
 
   //client.on('event', data => { /* … */ });
