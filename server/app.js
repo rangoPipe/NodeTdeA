@@ -15,15 +15,16 @@ let contador = 0;
 
 io.on('connection', client => {
 
-    client.emit("mensaje","bienvenido")
-    client.on("mensaje",(info) => {
-      console.log(info)
-    });
+    client.emit("mensaje","bienvenido");
 
     client.on("contador", () => {
       contador++;
       console.log(`Cantidad de usuarios ${contador}`);
       io.emit("contador",contador)
+    });
+
+    client.on("mensaje", (mensaje) => {
+      io.emit("mensaje",mensaje)
     });
 
   //client.on('event', data => { /* … */ });
