@@ -8,7 +8,7 @@ const mensaje = formulario.querySelector('#texto')
 
 
   socket.on("contador",(info) => {
-    console.log(info)
+    console.log(`Usuarios conectados ${info}`)
   });
 
   socket.on("mensaje",(info) => {

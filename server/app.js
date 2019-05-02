@@ -31,6 +31,7 @@ io.on('connection', client => {
   //client.on('event', data => { /* … */ });
   client.on('disconnect', () => {
     contador--;
+    if(contador<0) contado=0;
     console.log(`Cantidad de usuarios ${contador}`);
   });
 
