@@ -7,13 +7,17 @@
     <title>Sockets</title>
   </head>
   <body>
-    <h1>Sockets</h1>
+    <h1>Sala de chat</h1>
 
-    <form id="formulario" action="chat.html">
-      <input type="text" id="nombre"  placeholder="Nombre de usuario">
-      <button type="submit" name="enviar" id="enviar">Enviar</button>
+    <form id="formulario">
+      <input type="text" id="texto"  placeholder="Nombre de usuario">
+      <button id="enviar">Enviar</button>
     </form>
-    
+
+    <div id="chat">
+
+    </div>
+
     <script src="socket.io/socket.io.js"></script>
     <script src="js/socket.js"></script>
   </body>
