@@ -1,108 +1,47 @@
-const fs = require('fs');
-const uuid = require('uuid/v4');
-const bdPath = `../../BD/curso.json`;
-const modalidadesPath = '../../BD/modalidades.json';
 const funciones = require('../../funciones');
-
-listaCurso = [];
-
-const Crear = (curso) => {
-  Listar();
-  if(listaCurso.filter(x => x.nombre == curso.nombre).length > 0)
-    return false;
-
-  let id = uuid();
-  let datos = {
-    idCurso : id,
-    codigo : curso.codCurso,
-    nombre : curso.nombre,
-    descripcion : curso.descripcion,
-    valor : curso.valor,
-    modalidad : curso.modalidad, // 1 = virtual , 0=presencial
-    intensidad : curso.intensidad,
-    estado : true
-  }
-
-  listaCurso.push(datos);
-    return (Guardar()) ? id : false;
-}
-
-const Guardar = () => {
-  fs.writeFile('BD/curso.json', JSON.stringify(listaCurso), (err) => {
-    if(err) throw (err);
-    return true;
-  });
-}
-
-const Listar = () => {
-  try {
-    listaCurso = require(bdPath);
-  } catch (e) {
-    listaCurso = [];
-  }
-}
-
-const Buscar = (id) => {
-  Listar();
-  const result = listaCurso.find(x => x.idCurso == id);
-  return (!result) ? false : result;
-}
-
-const Deshabilitar = (id) => {
-  Listar();
-  listaCurso.forEach(x => {
-    if( x.idCurso == id) x.estado = false;
-  })
-}
-
+const logic = require('../../logic/cursoLogic')
+const modalidadLogic = require('../../logic/modalidadLogic');
+const rolLogic = require('../../logic/rolLogic');
 
 // NOTE: Acciones
 
-const Create = (req,res) => res.render('curso/create',{
-  modalidades : funciones.convertSelect(require(modalidadesPath),'idModalidad','valor')
-});
-const CreatePost = (req,res) => {
-  if( Crear(req.body) );
-    res.redirect('./verCursos');
+const Create = async (req,res) => {
+  let find = await logic.FindOneAsync({codigo:req.body.codCurso});
+  if(!find.data)
+     await logic.CreateAsync(req.body);
+  res.redirect('./verCursos')
 }
 
-const Index = (req,res) => {
-  Listar();
-  res.render('curso/index', {
-  cursos : listaCurso.filter(x => x.estado == true)
-  });
-}
-
-const View = (req,res) => {
-  const id = req.query.id;
-  Listar();
-  let curso = Buscar(id);
-  if(curso)
-    res.render('curso/view', {
-      idCurso : curso.idCurso,
-      codigo : curso.codigo,
-      nombre : curso.nombre,
-      descripcion : curso.descripcion,
-      valor : curso.valor,
-      modalidad : curso.modalidad,
-      intensidad : curso.intensidad,
-      estado : curso.estado,
-      modalidades : funciones.convertSelect(require(modalidadesPath),'idModalidad','valor')
+const Index = async (req,res) => {
+   let datos = await logic.FindAllAsync({});
+   let rol = await rolLogic.FindByIdAsync(req.session.id_rol);
+     console.log('rol',req.session.session);
+    res.render('curso/index', {
+      cursos : (datos.success) ? datos.data.filter(x => x.estado == true) : null
     });
-    else
-      res.redirect('./error');
 }
 
-const RemovePost = (req,res) => {
-  Deshabilitar(req.body.id);
+const View = async(req,res) => {
+
+  const id = (req.query.id) ? req.query.id : 0;
+  let curso = await logic.FindByIdAsync(id);
+  let data = (curso.success) ? curso.data : {};
+  let modalidades = await modalidadLogic.FindAllAsync({});
+  data.modalidades = funciones.convertSelect(
+                        (modalidades.success) ? modalidades.data.filter(x => x.estado == true) : []
+                     ,'_id','valor');
+
+  res.render(`curso/${ (id==0) ? 'create' : 'view' }`, data);
+}
+
+const Delete = async (req,res) => {
+  let result = await logic.UpdateAsync({ _id : req.body.id },{ estado : false })
   res.redirect('./verCursos')
 }
 
 module.exports = {
   Index,
   Create,
-  CreatePost,
   View,
-  Buscar,
-  RemovePost
+  Delete
 }

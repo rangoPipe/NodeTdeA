@@ -1,35 +1,67 @@
 {{>header }}
+
+{{{ showMessage msg alerta }}}
   <div class="container">
     <div class="card text-center">
       <div class="card-header">
         Crear Usuario
       </div>
+      <form method="post" action="/crearUsuario">
       <div class="card-body">
         <div class="container text-left">
-          <form>
+          <div class="row">
+          <div class="col-md-6">
             <div class="form-group">
               <label for="numDoc">Número Documento</label>
-              <input type="text" class="form-control" id="numDoc" name="numDoc" placeholder="Número de documento">
+              <input type="text" class="form-control" id="numDoc" name="numDoc" value="{{ numDoc }}" placeholder="Número de documento">
             </div>
+          </div>
+          <div class="col-md-6">
             <div class="form-group">
               <label for="nombre">Nombre</label>
-              <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre">
+              <input type="text" class="form-control" id="nombre" name="nombre" value="{{ nombre }}" placeholder="Nombre">
             </div>
+          </div>
+          <div class="col-md-6">
             <div class="form-group">
               <label for="correo">Correo</label>
-              <input type="text" class="form-control" id="nombre" name="correo" placeholder="Correo electronico">
+              <input type="text" class="form-control" id="correo" name="correo" value="{{ correo }}" placeholder="Correo electronico">
             </div>
+          </div>
+          <div class="col-md-6">
             <div class="form-group">
               <label for="telefono">Telefono</label>
-              <input type="text" class="form-control" id="telefono" name="telefono" placeholder="Telefono">
+              <input type="text" class="form-control" id="telefono" name="telefono" value="{{ telefono }}" placeholder="Telefono">
             </div>
-          </form>
-        </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="nombre">Nickname</label>
+              <input type="text" class="form-control" id="nick" name="nick" value="{{ nombre }}">
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="nombre">Password</label>
+              <input type="password" class="form-control" id="pass" name="pass" value="{{ nombre }}">
+            </div>
+          </div>
+          <div class="col-md-6">
+              <div class="form-group">
+                <label for="modalidad">Perfil</label>
+                <select class="form-control" name="id_rol" id="id_rol">
+                  {{{ selectOption roles id_rol}}}
+                </select>
+              </div>
+          </div>
+
+          </div>
       </div>
       <div class="card-footer text-muted  text-right">
-        <button type="button" name="button" class="btn btn-outline-success">Guardar</button>
-        <button type="button" name="button" class="btn btn-outline-dark">Cancelar</button>
+        <button type="submit" name="button" class="btn btn-outline-success" title="Guardar"><i class="far fa-save"></i> Guardar</button>
+        <a  class="btn btn-outline-dark" href="/">Cancelar</a>
       </div>
+    </form>
     </div>
   </div>
 {{>footer}}

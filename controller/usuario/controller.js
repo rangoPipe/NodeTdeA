@@ -1,70 +1,60 @@
-const fs = require('fs');
-const uuid = require('uuid/v4');
-const pathJson = 'usuario.json';
+const funciones = require('../../funciones');
+const Logic = require('../../logic/usuarioLogic');
+const rolLogic = require('../../logic/rolLogic')
 
-listaUsuario = [];
+const Create = async (req,res) => {
+  let find = await Logic.FindOneAsync({numDoc:req.body.numDoc});
+  if(!find.data)
+     await Logic.CreateAsync(req.body);
 
-const Crear = (usuario) => {
-  Listar();
-  if(listaUsuario.filter(x => x.nombre == usuario.nombre).length > 0)
-    return false;
+   let roles = await rolLogic.FindAllAsync({});
+   roles = funciones.convertSelect(
+                         (roles.success) ? roles.data.filter(x => x.estado == true) : []
+                      ,'_id','valor');
+   res.render('usuario/create',{
+     alerta: (find.data) ? "danger" : "success",
+     msg : (find.data) ? "El usuario ya esta registrado" : "El usuario se creo correctamente",
+     roles : roles
+   });
+}
 
-  let datos = {
-    id : uuid(),
-    numDoc : usuario.numDoc,
-    nombre : usuario.nombre,
-    correo : usuario.correo,
-    telefono : usuario.telefono,
-    id_rol : usuario.id_rol
+const View = async(req,res) => {
+  const id = (req.query.id) ? req.query.id : 0;
+  let usuario = await Logic.FindByIdAsync(id);
+  let data = (usuario.success) ? usuario.data : {};
+
+  let roles = await rolLogic.FindAllAsync({});
+  data.roles = funciones.convertSelect(
+                        (roles.success) ? roles.data.filter(x => x.estado == true) : []
+                     ,'_id','valor');
+  res.render(`usuario/${ (id==0) ? 'create' : 'view' }`, data);
+}
+
+const Loggear = async (req, res) => {
+  let result = await Logic.LoginAsync(req.body.usuario, req.body.contra);
+  if(result.success){
+    req.session.session = true;
+    req.session.nick = result.data.nickname;
+    req.session.idUsuario = result.data._id;
+    req.session.id_rol = result.data.id_rol;
+    res.send({success : true, data : "Operacion Exitosa"});
   }
-
-  listaUsuario.push(datos);
-  Guardar();
+  res.send({success : false, data : "Error al iniciar sesión"})
 }
 
-const Guardar = () => {
-  fs.writeFile(pathJson, JSON.stringify(listaUsuario), (err) => {
-    if(err) throw (err);
-    return true;
-  });
-}
+const Logout = async (req, res) => {
 
-const Listar = () => {
-  try {
-    listaUsuario = require(pathJson);
-  } catch (e) {
-    listaUsuario = [];
-  }
-}
+    req.session.session = null;
+    req.session.nick = null;
+    req.session.idUsuario = null;
+    req.session.id_rol = null;
 
-const Mostrar = () => {
-  Listar();
-  listaUsuario.forEach(x =>  MostrarUsuario(x));
-}
-
-const MostrarUsuario = ( usuario ) => {
-    Object.keys(usuario).forEach( i => {
-      console.log(i,usuario[i]);
-    })
-}
-
-const Buscar = (nombre) => {
-  Listar();
-  const result = listaUsuario.filter(x => x.nombre == nombre);
-    if(result.length === 0) return false;
-  return result;
-}
-
-
-const Create = (req,res) => {
-  res.render('usuario/create',{
-  })
+    res.send({success : true, data : "Operacion Exitosa"});
 }
 
 module.exports = {
   Create,
-  Crear,
-  Mostrar,
-  Buscar,
-  MostrarUsuario
+  View,
+  Loggear,
+  Logout
 }

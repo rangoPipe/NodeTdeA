@@ -13,5 +13,11 @@
   <script type="text/javascript" src="/js/jquery.min.js"></script>
   <script type="text/javascript" src="/js/popper.min.js"></script>
   <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+  {{#unless session }}
+    <script type="text/javascript" src="/js/login.js"></script>
+  {{/unless}}
+  {{#if session }}
+    <script type="text/javascript" src="/js/logout.js"></script>
+  {{/if}}
   <script type="text/javascript" src="/js/all.js"></script>
 </html>
